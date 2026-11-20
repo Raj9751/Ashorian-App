@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="false"
-        android:label="Ashorian"
+        android:label="Ashorian" android:icon="@mipmap/ashorian_app_icon"
         android:theme="@android:style/Theme.Material.NoActionBar"
         android:usesCleartextTraffic="true">
 
