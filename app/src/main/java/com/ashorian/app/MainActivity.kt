@@ -1,38 +1,39 @@
 package com.ashorian.app
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.graphics.Color
-import android.view.Gravity
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
 
 class MainActivity : Activity() {
 
+    private lateinit var webView: WebView
+
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val layout = LinearLayout(this)
-        layout.orientation = LinearLayout.VERTICAL
-        layout.gravity = Gravity.CENTER
-        layout.setPadding(30, 30, 30, 30)
-        layout.setBackgroundColor(Color.rgb(10, 15, 30))
+        webView = WebView(this)
 
-        val title = TextView(this)
-        title.text = "ASHORIAN"
-        title.textSize = 34f
-        title.setTextColor(Color.CYAN)
-        title.gravity = Gravity.CENTER
+        webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
 
-        val subtitle = TextView(this)
-        subtitle.text = "NATIVE ANDROID APP"
-        subtitle.textSize = 16f
-        subtitle.setTextColor(Color.WHITE)
-        subtitle.gravity = Gravity.CENTER
+        webView.webViewClient = WebViewClient()
+        webView.webChromeClient = WebChromeClient()
 
-        layout.addView(title)
-        layout.addView(subtitle)
+        setContentView(webView)
 
-        setContentView(layout)
+        webView.loadUrl("http://127.0.0.1:3000/")
+    }
+
+    @Deprecated("Deprecated in Android")
+    override fun onBackPressed() {
+        if (::webView.isInitialized && webView.canGoBack()) {
+            webView.goBack()
+        } else {
+            super.onBackPressed()
+        }
     }
 }
